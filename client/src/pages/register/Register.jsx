@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { URL } from '../../config'
-import {useNavigate} from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
+import './Register.css'
+
 
 const Register = (props) => {
 	const [ form, setValues ] = useState({
 		email: '',
 		password: '',
 		password2: '',
-    username: ''
+	username: ''
 	});
 	const [ message, setMessage ] = useState('');
 
@@ -26,7 +28,7 @@ const Register = (props) => {
 				email: form.email,
 				password: form.password,
 				password2: form.password2,
-        username: form.username
+		username: form.username
 			});
 			setMessage(response.data.message);
 			//console.log(response)
@@ -41,24 +43,35 @@ const Register = (props) => {
 	};
 
 	return (
-		<form onSubmit={handleSubmit} onChange={handleChange} className="form_container">
-			<label>Email</label>
-			<input name="email" />
-
-			<label>Password</label>
-			<input name="password" />
-
-			<label>Repeat password</label>
-			<input name="password2" />
-
-      <label>username</label>
-			<input name="username" />
-
-			<button>register</button>
-			<div className="message">
+		<div className="login-wrapper">
+			<div className="form-box">
+			<h1 className="welcome">Welcome to Recipo!</h1>
+			<form
+				onSubmit={handleSubmit}
+				onChange={handleChange}
+				className="form-container"
+			>
+				<div className="inputs-register">
+				<label>Username</label>
+				<input name="username"/>
+				<label>Email</label>
+				<input name="email" type="email"/>
+				<label>Password</label>
+				<input name="password" type="password" />
+				<label>Confirm Password</label>
+				<input name="password2" type="password" />
+				</div>
+				<button className="login-button">Register</button>
+				<div className="register-box">
+				<p>Already have an account?</p>
+				<Link to="/login">Login</Link>
+				</div>
+				<div className="message">
 				<h4>{message}</h4>
+				</div>
+			</form>
 			</div>
-		</form>
+		</div>
 	);
 };
 

@@ -1,0 +1,16 @@
+.inputs-register {
+    display: flex;
+    flex-direction: column;
+    padding: 0 4rem;
+}
+
+.inputs-register input {
+    padding: 0.4rem 1rem;
+    margin-bottom: 0.5rem;
+    border-radius: 0.5rem;
+    border: 1px solid black;
+}
+
+.inputs-register label {
+    font-weight: 500;   
+}

@@ -17,11 +17,11 @@ function App() {
         />
         <Route
           path="/login"
-          element={<Login login={login} />} //isLoggedIn ? <Navigate to="/" /> : 
+          element={isLoggedIn ? <Navigate to="/" /> : <Login login={login} />}
         />
         <Route
           path="/register"
-          element={isLoggedIn ? <Navigate to="/" /> : <Register />}
+          element={<Register />} //isLoggedIn ? <Navigate to="/" /> : 
         />
       </Routes>
     </Router>

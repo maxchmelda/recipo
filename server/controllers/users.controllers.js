@@ -36,8 +36,6 @@ const register = async (req, res) => {
       'recipes': []
     };
 
-    console.log(newUser);
-
     await User.create(newUser);
     res.json({ ok: true, message: "Successfully registered" });
   } catch (error) {
@@ -67,7 +65,7 @@ const login = async (req, res) => {
       const token = jwt.sign({ userEmail: user.email }, jwt_secret, {
         expiresIn: "1h",
       });
-      res.json({ ok: true, message: "welcome back", token, email });
+      res.json({ ok: true, message: `Welcome back ${user.username}!`, token, email });
     } else return res.json({ ok: false, message: "Email or password is incorrect" });
   } catch (error) {
     res.json({ ok: false, error });

@@ -58,9 +58,9 @@ const [message, setMessage] = useState("");
         >
           <div className="inputs">
             <label>Email</label>
-            <input name="email" />
+            <input name="email" type="email"/>
             <label>Password</label>
-            <input name="password" />
+            <input name="password" type="password" />
           </div>
           <button className="login-button">Login</button>
           <div className="register-box">

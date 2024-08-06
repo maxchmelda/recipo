@@ -32,6 +32,7 @@
 .inputs {
     display: flex;
     flex-direction: column;
+    padding: 0 4rem;
 }
 
 .inputs input {
