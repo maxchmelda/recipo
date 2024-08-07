@@ -17,9 +17,18 @@ const recipeSchema = new mongoose.Schema({
     tags: [ { type: String } ],
     author: { type: String, required: true },   
     times: {
-        total: { type: Number },
-        prep: { type: Number },
-        cook: { type: Number }
+        total: { 
+            hours: { type: Number },
+            minutes: { type: Number }
+         },
+        prep: { 
+            hours: { type: Number },
+            minutes: { type: Number }
+         },
+        cook: { 
+            hours: { type: Number },
+            minutes: { type: Number }
+         },
     },
     reviews: [
         {
