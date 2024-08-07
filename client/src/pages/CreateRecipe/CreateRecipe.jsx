@@ -1,9 +1,15 @@
 import React, { useState } from 'react';
+import Navbar from '../../components/Navbar/Navbar';
+import DefaultImage from '../../assets/images/default_recipe_image.svg';
+import './CreateRecipe.css';
+import { URL } from '../../config';
+import axios from 'axios';
 
 const tags = ['Chicken', 'Egg', 'Healthy'];
 
 const CreateRecipe = () => {
-  const [imageFile, setImageFile] = useState();
+  const [token, setToken] = useState(JSON.parse(localStorage.getItem("token")));
+  const [imageFile, setImageFile] = useState(DefaultImage);
   const [ingredients, setIngredients] = useState([{ ingredient: "", amount: "", unit: "" }]);
   const [steps, setSteps] = useState([{ step: 1, directions: "" }]);
   const [selectedTags, setSelectedTags] = useState([]);
@@ -99,24 +105,33 @@ const CreateRecipe = () => {
     }
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
 
     const recipe = {
       // "image": imageFile,
       "ingredients": ingredients,
-      "tags": tags,
+      "tags": selectedTags,
       "cookingTimes": cookingTimes,
       "description": description,
       "steps": steps
     }
 
-    console.log(recipe);
+    try {
+      axios.defaults.headers.common["Authorization"] = token;
+      const response = await axios.post(`${URL}/recipes/create-recipe`, recipe);
+      console.log(response.data);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+
     console.log('hi')
   }
 
 
   return (
     <>
+      <Navbar />
+
       <div className='create-top-menu'>
         <h2>Create a Recipe</h2>
         <button type="button" onClick={() => handleSubmit()}>Submit</button>
@@ -127,7 +142,7 @@ const CreateRecipe = () => {
           {imageFile && <img src={imageFile} alt="Uploaded" />}
           <div className='create-image-actions'>
             <input type="file" onChange={handleImageChange} />
-            <button type="button" onClick={(e) => setImageFile()}>Remove Image</button>
+            <button type="button" onClick={(e) => setImageFile(DefaultImage)}>Remove Image</button>
           </div>
         </div>
 

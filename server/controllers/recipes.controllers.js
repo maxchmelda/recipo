@@ -6,32 +6,6 @@ const getAllRecipes = async (req, res) => {
 
 }
 
-/*
-    {
-        image: image,
-        ingredients: [
-            { 
-                ingredient: 'celery',
-                amount: 10,
-                unit: 'g'
-            },
-            { 
-                ingredient: 'celery',
-                amount: 10,
-                unit: 'g'
-            },
-        ],
-        tags: [ 'Chicken', 'Egg', 'Healthy' ],
-        cookingTimes: { total: 3.5, prep: 2, cook: 5},
-        description: "some text",
-        steps: [
-            {
-                step: 1,
-                instructions: "blablabla"
-            }
-        ],     
-    }
-*/
 
 const createRecipe = async (req, res) => {
     const { image, ingredients, tags, cookingTimes, description, steps } = req.body;
@@ -53,17 +27,15 @@ const createRecipe = async (req, res) => {
     }
 
     try {
-        // const user = req.user.userEmail;
+        const user = req.user.userEmail;
 
-        // const userInDb = await User.findOne({ 'email': user });
+        const userInDb = await User.findOne({ 'email': user });
     
-        // if (!userInDb) {
-        //     return res.json({ ok: false, message: "User doesn't exist" });
-        // }
+        if (!userInDb) {
+            return res.json({ ok: false, message: "User doesn't exist" });
+        }
     
-        // const userName = userInDb.username;
-
-        const userName = "maxch"
+        const userName = userInDb.username;
     
         //upload Image from request to server and get imagePath
     
