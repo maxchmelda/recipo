@@ -1,23 +1,12 @@
 import React, { useState } from 'react';
 
-const tagsAvailible = [
-  { name: 'Chicken', selected: false },
-  { name: 'Eggs', selected: false },
-  { name: 'Salad', selected: false },
-  { name: 'Vegetarian', selected: false },
-  { name: 'Healthy', selected: false },
-  { name: 'Meat', selected: false },
-  { name: 'Drink', selected: false },
-  { name: 'Breakfast', selected: false },
-  { name: 'Lunch', selected: false },
-  { name: 'Dinner', selected: false }
-];
+const tags = ['Chicken', 'Egg', 'Healthy'];
 
 const CreateRecipe = () => {
   const [imageFile, setImageFile] = useState();
   const [ingredients, setIngredients] = useState([{ ingredient: "", amount: "", unit: "" }]);
   const [steps, setSteps] = useState([{ step: 1, directions: "" }]);
-  const [tags, setTags] = useState(tagsAvailible);
+  const [selectedTags, setSelectedTags] = useState([]);
   const [cookingTimes, setCookingTimes] = useState({
     total: { hours: "", minutes: "" },
     prep: { hours: "", minutes: "" },
@@ -49,13 +38,19 @@ const CreateRecipe = () => {
   };
 
   const handleTagsToggle = (tagToToggle) => {
-    const newTags = tags.map(tag =>
-      tag.name === tagToToggle.name
-        ? { ...tag, selected: !tag.selected }
-        : tag
-    );
-    setTags(newTags);
+    const tagIndex = selectedTags.findIndex(item => item === tagToToggle);
+  
+    if (tagIndex === -1) {
+      setSelectedTags([...selectedTags, tagToToggle]);
+    } else {
+      const newTags = [...selectedTags];
+      newTags.splice(tagIndex, 1);
+      setSelectedTags(newTags);
+    }
+
+    console.log(selectedTags)
   };
+  
 
   const handleTimesChange = (e, type, unit) => {
     const value = e.target.value === '' ? '' : parseInt(e.target.value, 10);
@@ -169,8 +164,9 @@ const CreateRecipe = () => {
               onClick={() => handleTagsToggle(tag)}
               key={index}
               type="button"
+              className={selectedTags.includes(tag) ? 'selected' : ''}
             >
-              {tag.name}
+              {tag}
             </button>
           ))}
         </div>
