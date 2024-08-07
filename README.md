@@ -39,7 +39,7 @@ recipe_schema {
         }
     ],
     description: 'some description...',
-    cooked_by: [ id, id, id, id ],
+    cooked_by: [ { id, times }, { id, times }, { id, times } ],
     recipe_id: 2340239840982
 }
 

@@ -31,7 +31,6 @@ const Register = (props) => {
 		username: form.username
 			});
 			setMessage(response.data.message);
-			//console.log(response)
 			if (response.data.ok) {
 				setTimeout(() => {
 					navigate('/login');

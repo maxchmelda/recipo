@@ -26,5 +26,6 @@ connecting();
 
 // =============== ROUTES ==============================
 app.use("/users", require("./routes/users.routes"));
+app.use("/recipes", require("./routes/recipes.routes"));
 // =============== START SERVER =====================
 app.listen(port, () => console.log(`server listening on port ${port}`));
