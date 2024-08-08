@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { URL } from '../../config'
+import { API_URL } from '../../config'
 import { useNavigate, Link } from 'react-router-dom'
 import './Register.css'
 
@@ -24,7 +24,7 @@ const Register = (props) => {
 		debugger
 		e.preventDefault();
 		try {
-			const response = await axios.post(`${URL}/users/register`, {
+			const response = await axios.post(`${API_URL}/users/register`, {
 				email: form.email,
 				password: form.password,
 				password2: form.password2,

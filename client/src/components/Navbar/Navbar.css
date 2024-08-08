@@ -1,0 +1,14 @@
+.navbar-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 1rem
+}
+
+.navbar-links {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4rem
+}
+

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { URL } from '../config';
+import { API_URL } from '../config';
 import * as jose from 'jose';
 
 const useAuth = () => {
@@ -18,7 +18,7 @@ const useAuth = () => {
 
       try {
         axios.defaults.headers.common["Authorization"] = token;
-        const response = await axios.post(`${URL}/users/verify_token`);
+        const response = await axios.post(`${API_URL}/users/verify_token`);
         
         if (response.data.ok) {
           // Token is valid, set login state

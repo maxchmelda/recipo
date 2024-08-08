@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { URL } from '../../config'
+import { API_URL } from '../../config'
 import { useNavigate, Link } from "react-router-dom";
 import './Login.css';
 // import jwt from 'jsonwebtoken'
@@ -25,7 +25,7 @@ const [message, setMessage] = useState("");
     debugger;
     e.preventDefault();
     try {
-      const response = await axios.post(`${URL}/users/login`, {
+      const response = await axios.post(`${API_URL}/users/login`, {
         email: form.email.toLowerCase(),
         password: form.password,
       });

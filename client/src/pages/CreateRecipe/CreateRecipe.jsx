@@ -2,14 +2,39 @@ import React, { useState } from 'react';
 import Navbar from '../../components/Navbar/Navbar';
 import DefaultImage from '../../assets/images/default_recipe_image.svg';
 import './CreateRecipe.css';
-import { URL } from '../../config';
+import { API_URL } from '../../config';
 import axios from 'axios';
+import { IoClose } from "react-icons/io5";
 
-const tags = ['Chicken', 'Egg', 'Healthy'];
+const tags = [
+  'Chicken',
+  'Egg',
+  'Healthy',
+  'Vegetarian',
+  'Low carb',
+  'High protein',
+  'Gluten-free',
+  'Dairy-free',
+  'Quick',
+  'Easy',
+  'Keto',
+  'Paleo',
+  'Vegan',
+  'Organic',
+  'Low fat',
+  'High fiber',
+  'Nut-free',
+  'Spicy',
+  'Comfort food',
+  'Meal prep',
+  'Budget-friendly',
+];
+
 
 const CreateRecipe = () => {
   const [token, setToken] = useState(JSON.parse(localStorage.getItem("token")));
   const [imageFile, setImageFile] = useState(DefaultImage);
+  const [imageInputKey, setImageInputKey] = useState(Date.now());
   const [ingredients, setIngredients] = useState([{ ingredient: "", amount: "", unit: "" }]);
   const [steps, setSteps] = useState([{ step: 1, directions: "" }]);
   const [selectedTags, setSelectedTags] = useState([]);
@@ -21,7 +46,16 @@ const CreateRecipe = () => {
   const [description, setDescription] = useState("");
 
   const handleImageChange = (e) => {
-    setImageFile(URL.createObjectURL(e.target.files[0]));
+    const file = e.target.files[0];
+    if (file) {
+      const imageUrl = window.URL.createObjectURL(file);
+      setImageFile(imageUrl);
+    }
+  };
+
+  const handleRemoveImage = () => {
+    setImageFile(DefaultImage);
+    setImageInputKey(Date.now()); 
   };
 
   const handleIngredientsChange = (e, index, type) => {
@@ -118,7 +152,7 @@ const CreateRecipe = () => {
 
     try {
       axios.defaults.headers.common["Authorization"] = token;
-      const response = await axios.post(`${URL}/recipes/create-recipe`, recipe);
+      const response = await axios.post(`${API_URL}/recipes/create-recipe`, recipe);
       console.log(response.data);
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -132,150 +166,165 @@ const CreateRecipe = () => {
     <>
       <Navbar />
 
-      <div className='create-top-menu'>
-        <h2>Create a Recipe</h2>
-        <button type="button" onClick={() => handleSubmit()}>Submit</button>
-      </div>
-
-      <form className='create-wrapper' onSubmit={() => handleSubmit()}>
-        <div className='create-image-upload'>
-          {imageFile && <img src={imageFile} alt="Uploaded" />}
-          <div className='create-image-actions'>
-            <input type="file" onChange={handleImageChange} />
-            <button type="button" onClick={(e) => setImageFile(DefaultImage)}>Remove Image</button>
-          </div>
+      <div className='create-page-wrapper'>
+        <div className='create-top-menu'>
+          <button className="create-decoy-button" type="button">Submit</button>
+          <h2>Create a Recipe</h2>
+          <button className="create-submit-button" type="button" onClick={() => handleSubmit()}>Submit</button>
         </div>
 
-        <div className='create-ingredients'>
-          <h3>Ingredients</h3>
-          {ingredients.map((entry, index) => (
-            <div className='create-ingredient-row' key={index}>
-              <input
-                placeholder="Name"
-                value={entry.ingredient}
-                onChange={(e) => handleIngredientsChange(e, index, "ingredient")}
-              />
-              <input
-                placeholder="Amount"
-                type="number"
-                value={entry.amount}
-                onChange={(e) => handleIngredientsChange(e, index, "amount")}
-              />
-              <input
-                placeholder="Unit"
-                value={entry.unit}
-                onChange={(e) => handleIngredientsChange(e, index, "unit")}
-              />
-              <button type="button" onClick={() => handleRemoveIngredient(index)}>X</button>
+        <form className='create-wrapper' onSubmit={() => handleSubmit()}>
+          <div className='create-image-upload'>
+            <h2 className='create-section-heading'>Recipe Image</h2>
+            <img src={imageFile} alt="recipe-preview" className='create-image-image' />
+            <div className='create-image-actions'>
+              <button type="button" className="create-file-upload-button">
+                <input
+                  key={imageInputKey}
+                  className="create-file-upload-input"
+                  type="file"
+                  onChange={handleImageChange}
+                  accept="image/*"
+                />
+                <span>Upload Image</span>
+              </button>
+              <button className="create-remove-image" type="button" onClick={handleRemoveImage}>
+                Remove Image
+              </button>
             </div>
-          ))}
-          <button type="button" onClick={handleAddIngredient}>Add ingredient</button>
         </div>
 
-        <div className='create-tags'>
-          <h3>Tags</h3>
-          {tags.map((tag, index) => (
-            <button
-              onClick={() => handleTagsToggle(tag)}
-              key={index}
-              type="button"
-              className={selectedTags.includes(tag) ? 'selected' : ''}
-            >
-              {tag}
-            </button>
-          ))}
-        </div>
-
-        <div className='create-cooking-times'>
-          <h3>Cooking times</h3>
-          <div className='create-cooking-times-box'>
-            <p>Prep</p>
-            <div>
-              <div>
-                <p>Hours</p>
-                <input
-                  type="number"
-                  value={cookingTimes.prep.hours || ''}
-                  onChange={(e) => handleTimesChange(e, 'prep', 'hours')}
-                />
-              </div>
-              <div>
-                <p>Minutes</p>
-                <input
-                  type="number"
-                  value={cookingTimes.prep.minutes || ''}
-                  onChange={(e) => handleTimesChange(e, 'prep', 'minutes')}
-                />
-              </div>
-            </div>
-          </div>
-          <div className='create-cooking-times-box'>
-            <p>Cook</p>
-            <div>
-              <div>
-                <p>Hours</p>
-                <input
-                  type="number"
-                  value={cookingTimes.cook.hours || ''}
-                  onChange={(e) => handleTimesChange(e, 'cook', 'hours')}
-                />
-              </div>
-              <div>
-                <p>Minutes</p>
-                <input
-                  type="number"
-                  value={cookingTimes.cook.minutes || ''}
-                  onChange={(e) => handleTimesChange(e, 'cook', 'minutes')}
-                />
-              </div>
-            </div>
-          </div>
-          <div className='create-cooking-times-box'>
-            <p>Total</p>
-            <div>
-              <div>
-                <p>Hours</p>
-                <input
-                  type="number"
-                  value={cookingTimes.total.hours || ''}
-                  onChange={(e) => handleTimesChange(e, 'total', 'hours')}
-                />
-              </div>
-              <div>
-                <p>Minutes</p>
-                <input
-                  type="number"
-                  value={cookingTimes.total.minutes || ''}
-                  onChange={(e) => handleTimesChange(e, 'total', 'minutes')}
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className='create-description'>
-          <h3>Description</h3>
-          <textarea onChange={(e) => setDescription(e.target.value)} />
-        </div>
-
-        <div className='create-steps'>
-          <h3>Instructions</h3>
-          {steps.map((step, index) => {
-            return (
-              <div key={index}>
-                <div>
-                  <h4>{`Step ${step.step}`}</h4>
-                  <button onClick={() => handleRemoveStep(index)}>X</button>
+          <div className='create-ingredients'>
+            <h2 className='create-ingredients-heading'>Ingredients</h2>
+            {ingredients.map((entry, index) => (
+              <div className='create-ingredients-entry' key={index}>
+                <div className='create-ingredient-row-inputs'>
+                  <input
+                    placeholder="Name"
+                    value={entry.ingredient}
+                    onChange={(e) => handleIngredientsChange(e, index, "ingredient")}
+                  />
+                  <input
+                    placeholder="Amount"
+                    type="number"
+                    value={entry.amount}
+                    onChange={(e) => handleIngredientsChange(e, index, "amount")}
+                  />
+                  <input
+                    placeholder="Unit"
+                    value={entry.unit}
+                    onChange={(e) => handleIngredientsChange(e, index, "unit")}
+                  />
                 </div>
-                <textarea onChange={(e) => handleStepsChange(e, index)}/>
+                <button className='create-remove-ingredient' type="button" onClick={() => handleRemoveIngredient(index)}>
+                    <IoClose className='create-remove-ingredient-button' size={30}/>
+                </button>
               </div>
-            )
-          })}
-          <button type="button" onClick={() => handleAddStep()}>Add step</button>
-        </div>
+              
+            ))}
+            <button className="create-add-ingredient" type="button" onClick={handleAddIngredient}>Add ingredient</button>
+          </div>
 
-        <button type="button" onClick={() => handleSubmit()}>Submit</button>
-      </form>
+          <div className='create-tags'>
+            <h2 className='create-tags-heading'>Tags</h2>
+            <div className='create-tags-wrapper'>
+              {tags.map((tag, index) => (
+                <button
+                  onClick={() => handleTagsToggle(tag)}
+                  key={index}
+                  type="button"
+                  className={selectedTags.includes(tag) ? 'create-tag-selected' : 'create-tag'}
+                >
+                  {tag}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className='create-cooking-times'>
+            <h2>Cooking times</h2>
+            <div className='create-cooking-times-wrapper'>
+
+              <div className='create-cooking-times-box'>
+                <h3>Prep</h3>
+                <div className='create-cooking-times-input'>
+                    <input
+                      placeholder='hours'
+                      type="number"
+                      value={cookingTimes.prep.hours || ''}
+                      onChange={(e) => handleTimesChange(e, 'prep', 'hours')}
+                    />
+                    <input
+                      placeholder='minutes'
+                      type="number"
+                      value={cookingTimes.prep.minutes || ''}
+                      onChange={(e) => handleTimesChange(e, 'prep', 'minutes')}
+                    />
+                </div>
+              </div>
+              <div className='create-cooking-times-box'>
+                <h3>Cook</h3>
+                <div className='create-cooking-times-input'>
+                    <input
+                      placeholder='hours'
+                      type="number"
+                      value={cookingTimes.cook.hours || ''}
+                      onChange={(e) => handleTimesChange(e, 'cook', 'hours')}
+                    />
+                    <input
+                      placeholder='minutes'
+                      type="number"
+                      value={cookingTimes.cook.minutes || ''}
+                      onChange={(e) => handleTimesChange(e, 'cook', 'minutes')}
+                    />
+                </div>
+              </div>
+              <div className='create-cooking-times-box'>
+                <h3>Total</h3>
+                <div className='create-cooking-times-input'>
+                    <input
+                      placeholder='hours'
+                      type="number"
+                      value={cookingTimes.total.hours || ''}
+                      onChange={(e) => handleTimesChange(e, 'total', 'hours')}
+                    />
+                    <input
+                      placeholder='minutes'
+                      type="number"
+                      value={cookingTimes.total.minutes || ''}
+                      onChange={(e) => handleTimesChange(e, 'total', 'minutes')}
+                      className=''
+                    />
+                </div>
+              </div>
+            </div>
+            
+          </div>
+
+          <div className='create-description'>
+            <h2>Description</h2>
+            <textarea className="create-description-textarea" onChange={(e) => setDescription(e.target.value)} />
+          </div>
+
+          <div className='create-steps'>
+            <h2>Instructions</h2>
+            {steps.map((step, index) => {
+              return (
+                <div key={index} className="create-step-box">
+                  <div className='create-steps-header'>
+                    <h4>{`Step ${step.step}`}</h4>
+                    <button className="create-remove-step" onClick={() => handleRemoveStep(index)}>
+                      <IoClose className="create-remove-step-button" size={30}/>
+                    </button>
+                  </div>
+                  <textarea className="create-steps-textarea" onChange={(e) => handleStepsChange(e, index)}/>
+                </div>
+              )
+            })}
+            <button className='create-add-step-button' type="button" onClick={() => handleAddStep()}>Add step</button>
+          </div>
+        </form>
+      </div>
     </>
   );
 };
