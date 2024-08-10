@@ -5,6 +5,7 @@ import './CreateRecipe.css';
 import { API_URL } from '../../config';
 import axios from 'axios';
 import { IoClose } from "react-icons/io5";
+import { useNavigate } from 'react-router-dom';
 
 const tags = [
   'Chicken',
@@ -32,8 +33,10 @@ const tags = [
 
 
 const CreateRecipe = () => {
+  const navigate = useNavigate();
   const [token, setToken] = useState(JSON.parse(localStorage.getItem("token")));
-  const [imageFile, setImageFile] = useState(DefaultImage);
+  const [recipeName, setRecipeName] = useState("");
+  const [imageFile, setImageFile] = useState();
   const [imageInputKey, setImageInputKey] = useState(Date.now());
   const [ingredients, setIngredients] = useState([{ ingredient: "", amount: "", unit: "" }]);
   const [steps, setSteps] = useState([{ step: 1, directions: "" }]);
@@ -143,8 +146,8 @@ const CreateRecipe = () => {
   };
 
   const handleSubmit = async () => {
-
     const recipe = {
+      "recipeName": recipeName,
       "image": imageFile,
       "ingredients": ingredients,
       "tags": selectedTags,
@@ -154,6 +157,7 @@ const CreateRecipe = () => {
     }
 
     try {
+      console.log('sending request')
       axios.defaults.headers.common["Authorization"] = token;
       const response = await axios.post(`${API_URL}/recipes/create-recipe`, recipe);
       console.log(response.data);
@@ -161,7 +165,6 @@ const CreateRecipe = () => {
       console.error('Error fetching data:', error);
     }
 
-    console.log('hi')
   }
 
 
@@ -177,9 +180,14 @@ const CreateRecipe = () => {
         </div>
 
         <form className='create-wrapper' onSubmit={() => handleSubmit()}>
+          <div className='create-recipe-name'>
+            <h2 className='create-section-heading'>Recipe Name</h2>
+            <input type="text" onChange={(e) => setRecipeName(e.target.value)}/>
+          </div>
+
           <div className='create-image-upload'>
             <h2 className='create-section-heading'>Recipe Image</h2>
-            <img src={imageFile} alt="recipe-preview" className='create-image-image' />
+            <img src={imageFile ? imageFile : DefaultImage} alt="recipe-preview" className='create-image-image' />
             <div className='create-image-actions'>
               <button type="button" className="create-file-upload-button">
                 <input
