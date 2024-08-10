@@ -73,7 +73,7 @@ const Discover = () => {
                       />
                     </div>
                   )}
-                  <p className='recipe-author'>{`By: ${recipe.author}`}</p>
+                  <p className='recipe-author'>By: <u>{`${recipe.author}`}</u></p>
                 </button>
               ))
             ) : (

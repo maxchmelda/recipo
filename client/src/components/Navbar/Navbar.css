@@ -15,12 +15,14 @@
     text-decoration: none;
     color: #616161;
     font-weight: 800;
+    cursor: pointer;
 }
 
 .selected-navbar-link {
     text-decoration: underline;
     color: #000000;
     font-weight: 800;
+    cursor: pointer;
 }
 
 .navbar-link:hover {
@@ -28,10 +30,11 @@
 }
 
 .navbar-profile-picture {
-    width: 5rem;
+    width: 4rem;
     aspect-ratio: 1/1;
     border-radius: 4rem;
     margin-top: 0.3rem;
+    cursor: pointer;
 }
 
 
