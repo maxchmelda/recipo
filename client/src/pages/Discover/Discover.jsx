@@ -3,9 +3,13 @@ import axios from 'axios';
 import Navbar from '../../components/Navbar/Navbar';
 import './Discover.css';
 import { API_URL } from '../../config';
+import { CiSearch } from "react-icons/ci";
+import { useNavigate } from 'react-router-dom';
 
 const Discover = () => {
   const [recipes, setRecipes] = useState([]);
+  const [search, setSearch] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchRecipes = async () => {
@@ -30,29 +34,47 @@ const Discover = () => {
 
       <div className='discover-page-wrapper'>
         <div className='all-recipes-wrapper'>
-          <h2>All Recipes</h2>
-          <div className='recipes-wrapper'>
+          <div className='all-recipes-heading-wrapper'>
+            <h2 className='all-recipes-heading'>All Recipes</h2>
+            <div className='recipe-search-wrapper'>
+              <div className='recipe-search-container'>
+                <input
+                  type="text"
+                  onChange={(e) => setSearch(e.target.value)}
+                  value={search}
+                  className='recipe-search-input'
+                  placeholder='Input recipe name'
+                />
+                <CiSearch  className='recipe-search-icon'/>
+              </div>
+              <button className='recipe-search-button'>Search</button>
+            </div>
+          </div>
+          <div className='recipes-grid-container'>
             {recipes.length > 0 ? (
               recipes.map((recipe) => (
-                <div key={recipe._id} className='recipe-card'>
-                  <h3>{recipe.name}</h3> {/* Display recipe name */}
-                  <p>{recipe.description}</p> {/* Display recipe description */}
+                <button key={recipe._id} className='recipe-card' type="button" onClick={() => navigate(`/recipe/${recipe._id}`)}>
+                  <h3>{recipe.name}</h3>
                   {recipe.image && (
-                    <img
-                      src={recipe.image} // Use base64 string as the image source
-                      alt={recipe.name} // Alt text for the image
-                      className='recipe-image' // Add a class for styling
-                    />
+                    <div className='recipe-image-container'>
+                      <img
+                        src={recipe.image}
+                        alt={recipe.name}
+                        className='recipe-image'
+                      />
+                    </div>
                   )}
                   {!recipe.image && (
-                    <img
-                      src={`${API_URL}/images/default_recipe_image.svg`} // URL to the default image
-                      alt="Default Recipe" // Alt text for the default image
-                      className='recipe-image' // Add a class for styling
-                    />
+                    <div className='recipe-image-container'>
+                      <img
+                        src={`assets/images/default_recipe_image.svg`}
+                        alt="Default Recipe"
+                        className='recipe-image'
+                      />
+                    </div>
                   )}
-                  {/* Add more recipe details as needed */}
-                </div>
+                  <p className='recipe-author'>{`By: ${recipe.author}`}</p>
+                </button>
               ))
             ) : (
               <p>No recipes found.</p>
