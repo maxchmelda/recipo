@@ -1,0 +1,14 @@
+.recipe-content-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    background-color: white;
+    width: 75vw;
+    border-radius: 2rem;
+    padding: 2rem 2rem;
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+    padding-bottom: 3rem;
+}

@@ -42,11 +42,7 @@ const register = async (req, res) => {
     res.json({ ok: false, error });
   }
 };
-// the client is sending this body object
-//  {
-//     email: form.email,
-//     password: form.password
-//  }
+
 const login = async (req, res) => {
   const { email, password } = req.body;
   if (!email || !password) {
@@ -80,4 +76,46 @@ const verify_token = (req, res) => {
   });
 };
 
-module.exports = { register, login, verify_token };
+
+const editUser = async (req, res) => {
+  const userEmail = req.user.userEmail;
+
+  const { userPicture } = req.body;
+
+  if (!userEmail) return res.json({ ok: false, message: "Error resolving user" });
+
+  try {
+    const user = await User.findOne({ email: userEmail });
+
+    if (!user) return res.json({ ok: false, message: "Error finding user" });
+
+    if (userPicture) {
+      user.image = userPicture;
+    }
+
+    await user.save();
+    res.json({ ok: true, message: "User updated successfully"})
+  } catch (error) {
+    res.json({ ok: false, message: error });
+  }
+};
+
+
+const getUserPicture = async (req, res) => {
+  const userEmail = req.user.userEmail;
+
+  if (!userEmail) return res.json({ ok: false, message: "Error resolving user" });
+
+  try {
+    const user = await User.findOne({ email: userEmail });
+
+    if (!user) return res.json({ ok: false, message: "Error finding user" });
+
+    res.json({ ok: true, image: user.image });
+  } catch (error) {
+    res.json({ ok: false, message: error });
+  }
+}
+
+
+module.exports = { register, login, verify_token, getUserPicture, editUser };

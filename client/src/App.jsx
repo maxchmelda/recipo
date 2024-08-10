@@ -42,7 +42,7 @@ function App() {
           element={isLoggedIn ? <Profile /> : <Navigate to="/login" />}
         />
         <Route
-          path="/recipe"
+          path="/recipe/:recipeId"
           element={isLoggedIn ? <Recipe /> : <Navigate to="/login" />}
         />
       </Routes>
