@@ -48,7 +48,7 @@ const recipeSchema = new mongoose.Schema({
             times: { type: Number, required: true }
         }
     ],
-    imagePath: { type: String }
+    image: { type: String }
 }, { strictQuery: false });
 
 module.exports = mongoose.model('Recipe', recipeSchema);

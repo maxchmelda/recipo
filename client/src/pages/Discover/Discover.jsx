@@ -8,8 +8,13 @@ const Discover = () => {
     <>
       <Navbar />
 
-      <div className='create-page-wrapper'>
-
+      <div className='discover-page-wrapper'>
+        <div className='all-recipes-wrapper'>
+          <h2>All recipes</h2>
+          <div className='recipes-wrapper'>
+              {/* Recipes map */}
+          </div>
+        </div>
       </div>
     </>
   )

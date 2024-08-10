@@ -4,7 +4,7 @@ html, body {
     overflow-x: hidden;
 }
 
-.create-page-wrapper {
+.discover-page-wrapper {
     width: 100vw;
     display: flex;
     align-items: center;

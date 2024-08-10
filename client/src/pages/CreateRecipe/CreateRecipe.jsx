@@ -48,8 +48,11 @@ const CreateRecipe = () => {
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      const imageUrl = window.URL.createObjectURL(file);
-      setImageFile(imageUrl);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImageFile(reader.result);
+      };
+      reader.readAsDataURL(file);
     }
   };
 
@@ -142,7 +145,7 @@ const CreateRecipe = () => {
   const handleSubmit = async () => {
 
     const recipe = {
-      // "image": imageFile,
+      "image": imageFile,
       "ingredients": ingredients,
       "tags": selectedTags,
       "cookingTimes": cookingTimes,
