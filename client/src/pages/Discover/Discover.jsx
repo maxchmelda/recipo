@@ -13,6 +13,20 @@ const Discover = () => {
   const [search, setSearch] = useState("");
   const navigate = useNavigate();
 
+  const fetchRecipes = async () => {
+    try {
+      axios.defaults.headers.common["Authorization"] = token;
+      const response = await axios.get(`${API_URL}/recipes/all`);
+      if (response.data.ok) {
+        setRecipes(response.data.recipes);
+      } else {
+        console.error('Failed to fetch recipes:', response.data.message);
+      }
+    } catch (error) {
+      console.error('Error fetching recipes:', error);
+    }
+  };
+
   useEffect(() => {
     const fetchRecipes = async () => {
       try {
@@ -31,6 +45,29 @@ const Discover = () => {
     fetchRecipes();
   }, []);
 
+  const handleSearch = async () => {
+    if (search === "") {
+      fetchRecipes();
+
+    } else {
+      try {
+        axios.defaults.headers.common["Authorization"] = token;
+        const response = await axios.get(`${API_URL}/recipes/search`, {
+          params: {
+            searchString: search,
+          }
+        });
+        if (response.data.ok) {
+          setRecipes(response.data.recipes);
+        } else {
+          console.error('Failed to fetch recipes:', response.data.message);
+        }
+      } catch (error) {
+        console.error('Error fetching recipes:', error);
+      }
+    }
+  }
+
   return (
     <>
       <Navbar />
@@ -46,11 +83,11 @@ const Discover = () => {
                   onChange={(e) => setSearch(e.target.value)}
                   value={search}
                   className='recipe-search-input'
-                  placeholder='Input recipe name'
+                  placeholder='type something'
                 />
                 <CiSearch  className='recipe-search-icon'/>
               </div>
-              <button className='recipe-search-button'>Search</button>
+              <button className='recipe-search-button' onClick={() => handleSearch()}>Search</button>
             </div>
           </div>
           <div className='recipes-grid-container'>

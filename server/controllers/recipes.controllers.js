@@ -127,7 +127,31 @@ const addReviewToRecipe = async (req, res) => {
     }
 };
 
+const searchForRecipes = async (req, res) => {
+    const { searchString } = req.query;
+
+    if (!searchString) {
+        return res.status(400).json({ ok: false, message: 'Search string is required' });
+    }
+
+    try {
+        const recipes = await Recipe.find({
+            $or: [
+                { name: { $regex: searchString, $options: 'i' } },
+                { description: { $regex: searchString, $options: 'i' } },
+                { tags: { $regex: searchString, $options: 'i' } }
+            ]
+        });
+
+        res.status(200).json({ ok: true, recipes });
+    } catch (error) {
+        console.error('Error searching for recipes:', error);
+        res.status(500).json({ ok: false, message: 'Server error' });
+    }
+};
 
 
 
-module.exports = { getAllRecipes, createRecipe, getSingleRecipe, addReviewToRecipe };
+
+
+module.exports = { getAllRecipes, createRecipe, getSingleRecipe, addReviewToRecipe, searchForRecipes };

@@ -31,7 +31,6 @@ const Navbar = () => {
         <div className='navbar-links'>
             <Link className={location.pathname === '/' ? 'selected-navbar-link' : 'navbar-link'} to='/' >Discover</Link>
             <Link className={location.pathname === '/cookbook' ? 'selected-navbar-link' : 'navbar-link'} to='/cookbook' >Cookbook</Link>
-            <Link className={location.pathname === '/about-us' ? 'selected-navbar-link' : 'navbar-link'} to='/about-us' >About us</Link>
             <Link className={location.pathname === '/create-recipe' ? 'selected-navbar-link' : 'navbar-link'} to='/create-recipe' >Create recipe</Link>
         </div>
         <Link className='navbar-link' to='/profile'>

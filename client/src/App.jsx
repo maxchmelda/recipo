@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import useAuth from './hooks/useAuth';
-import { Discover, Login, Register, AboutUs, Cookbook, CreateRecipe, Profile, Recipe } from './pages';
+import { Discover, Login, Register, Cookbook, CreateRecipe, Profile, Recipe } from './pages';
 
 function App() {
   const { isLoggedIn, login, logout } = useAuth();
@@ -32,10 +32,6 @@ function App() {
         <Route
           path="/cookbook"
           element={isLoggedIn ? <Cookbook /> : <Navigate to="/login" />}
-        />
-        <Route
-          path="/about-us"
-          element={isLoggedIn ? <AboutUs /> : <Navigate to="/login" />}
         />
         <Route
           path="/profile"

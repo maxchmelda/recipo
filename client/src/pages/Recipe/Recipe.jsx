@@ -15,6 +15,21 @@ const Recipe = () => {
   const [reviewToAdd, setReviewToAdd] = useState("");
   const [stars, setStars] = useState(1);
 
+  const fetchRecipe = async () => {
+    try {
+      axios.defaults.headers.common["Authorization"] = token;
+      const response = await axios.get(`${API_URL}/recipes/get-recipe`, {
+        params: {
+          'recipeId': recipeId,
+        }
+      });
+      console.log(response);
+      setRecipe(response.data.recipe);
+    } catch (error) {
+      console.log('Error fetching user profile picture:', error);
+    }
+  };
+
   useEffect(() => {
     const fetchRecipe = async () => {
       try {
