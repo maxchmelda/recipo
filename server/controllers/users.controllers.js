@@ -115,7 +115,7 @@ const getUserPicture = async (req, res) => {
   } catch (error) {
     res.json({ ok: false, message: error });
   }
-}
+};
 
 
 module.exports = { register, login, verify_token, getUserPicture, editUser };

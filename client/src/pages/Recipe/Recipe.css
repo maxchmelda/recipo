@@ -12,3 +12,181 @@
     margin-bottom: 2rem;
     padding-bottom: 3rem;
 }
+
+.recipe-name-heading {
+    font-size: xx-large;
+}
+
+.recipe-description p {
+    font-size: larger;
+}
+
+.recipe-image {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.recipe-image img {
+    width: 98%;
+    border-radius: 2rem;
+}
+
+.recipe-cooking-times {
+    display: flex;
+    align-items: center;
+    gap: 6rem
+}
+
+.recipe-cooking-times p {
+    font-size: larger;
+}
+
+.ingredients-wrapper {
+    width: 100%;
+    text-align: center;
+    margin-top: 1rem;
+}
+
+.ingredients-wrapper h2 {
+    font-size: xx-large;
+}
+
+.ingredients-container {
+    display: flex;
+    flex-direction: column;
+    margin-top: 0.8rem;
+}
+
+.ingredient-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.ingredient-row span {
+    font-size: large;
+}
+
+.steps-wrapper {
+    width: 100%;
+}
+
+.step-heading {
+    margin-top: 1rem;
+}
+
+.step-container, .instructions-heading {
+    margin-left: 10%;
+}
+
+.tags-wrapper {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.tags-container button {
+    cursor: default;
+}
+
+.reviews-wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+    justify-content: center;
+}
+
+.create-review {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    width: 100%;
+}
+
+.create-review textarea {
+    width: 55%;
+    height: 15vh;
+    padding: 0.7rem 1rem;
+    border-radius: 2rem;
+}
+
+.add-review-btn {
+    background-color: #5d7762;
+    color: white;
+    border: none;
+    border-radius: 2rem;
+    font-weight: 700;
+    padding: 0.5rem 1rem;
+}
+
+.add-review-btn:hover {
+    background-color: #77957c;
+    cursor: pointer;
+}
+
+.review-stars-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.2rem
+}
+
+.star-button {
+    background-color: transparent;
+    outline: none;
+    border: none;
+    cursor: pointer;
+}
+
+.star {
+    color: rgb(116, 116, 116);
+}
+
+.star-hidden {
+    color: transparent;
+}
+
+.review-done-stars-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.2rem
+}
+
+
+.reviews-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.review-card {
+    width: 40%;
+    padding: 1rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.reviewText {
+    font-weight: 500;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    margin-top: 0.5rem;
+}
+
+

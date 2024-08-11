@@ -33,15 +33,12 @@ const recipeSchema = new mongoose.Schema({
     },
     reviews: [
         {
-            user: {
-                name: { type: String, required: true },
-                id: { type: mongoose.Schema.Types.Mixed, required: true }
-            },
+            userName: { type: String, required: true },
             stars: { type: Number, min: 1, max: 5, required: true },
             text: { type: String, required: true },
-            date: { type: Date, required: true }
         }
     ],
+    rating: { type: Number, min: 1, max: 5, required: true },
     description: { type: String, required: true },
     cooked_by: [
         { 

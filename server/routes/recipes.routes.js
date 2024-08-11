@@ -4,5 +4,7 @@ const authenticate = require('../middleware/authenticate');
 
 router.get('/all', authenticate, controller.getAllRecipes);
 router.post('/create-recipe', authenticate, controller.createRecipe );
+router.get('/get-recipe', authenticate, controller.getSingleRecipe )
+router.post('/add-review', authenticate, controller.addReviewToRecipe )
 
 module.exports = router;

@@ -57,4 +57,77 @@ const getAllRecipes = async (req, res) => {
     }
 };
 
-module.exports = { getAllRecipes, createRecipe };
+const getSingleRecipe = async (req, res) => {
+    const { recipeId } = req.query;
+  
+    console.log(recipeId);
+  
+    if (!recipeId) {
+      return res.status(400).json({ ok: false, message: 'Recipe ID is required' });
+    }
+  
+    try {
+      const recipe = await Recipe.findById(recipeId);
+      if (!recipe) {
+        return res.status(404).json({ ok: false, message: 'Recipe not found' });
+      }
+      res.json({ ok: true, recipe: recipe });
+    } catch (error) {
+      console.error('Error fetching recipe:', error);
+      res.status(500).json({ ok: false, message: 'Server error' });
+    }
+};  
+
+
+const addReviewToRecipe = async (req, res) => {
+    const userEmail = req.user.userEmail;
+    const { recipeId, review, stars } = req.body;
+
+    if (!userEmail) return res.status(404).json({ ok: false, message: 'User not found' });
+    if (!recipeId) return res.status(404).json({ ok: false, message: 'No recipe ID provided' });
+    if (!review) return res.status(400).json({ ok: false, message: 'Review cannot be blank' });
+    if (stars < 1 || stars > 5) return res.status(400).json({ ok: false, message: 'Stars must be between 1 and 5' });
+
+    try {
+        const recipe = await Recipe.findById(recipeId);
+        const user = await User.findOne({ email: userEmail });
+
+        if (!recipe) return res.status(404).json({ ok: false, message: 'Recipe not found' });
+        if (!user) return res.status(404).json({ ok: false, message: 'User not found' });
+
+        const userName = user.username;
+
+        const reviewToAdd = {
+            userName,
+            text: review,
+            stars: stars,
+        };
+
+        const existingReviewIndex = recipe.reviews.findIndex(r => r.userName === userName);
+
+        if (existingReviewIndex !== -1) {
+            recipe.reviews[existingReviewIndex] = reviewToAdd;
+        } else {
+            recipe.reviews.push(reviewToAdd);
+        }
+
+        const totalStars = recipe.reviews.reduce((sum, review) => sum + review.stars, 0);
+        const averageRating = totalStars / recipe.reviews.length;
+
+        const roundedRating = Math.round(Math.max(1, Math.min(5, averageRating)));
+
+        recipe.rating = roundedRating;
+
+        await recipe.save();
+
+        res.status(200).json({ ok: true, message: 'Review added/updated successfully' });
+    } catch (error) {
+        console.error('Error adding/updating review:', error);
+        res.status(500).json({ ok: false, message: 'Server error' });
+    }
+};
+
+
+
+
+module.exports = { getAllRecipes, createRecipe, getSingleRecipe, addReviewToRecipe };

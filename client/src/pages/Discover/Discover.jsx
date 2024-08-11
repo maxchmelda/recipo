@@ -5,8 +5,10 @@ import './Discover.css';
 import { API_URL } from '../../config';
 import { CiSearch } from "react-icons/ci";
 import { useNavigate } from 'react-router-dom';
+import { MdStar } from 'react-icons/md';
 
 const Discover = () => {
+  const [token, setToken] = useState(JSON.parse(localStorage.getItem("token")));
   const [recipes, setRecipes] = useState([]);
   const [search, setSearch] = useState("");
   const navigate = useNavigate();
@@ -14,6 +16,7 @@ const Discover = () => {
   useEffect(() => {
     const fetchRecipes = async () => {
       try {
+        axios.defaults.headers.common["Authorization"] = token;
         const response = await axios.get(`${API_URL}/recipes/all`);
         if (response.data.ok) {
           setRecipes(response.data.recipes);
@@ -73,7 +76,15 @@ const Discover = () => {
                       />
                     </div>
                   )}
+                  <div className='review-done-stars-container'>
+                    <MdStar className='star-visible' size={30} />
+                    <MdStar className={recipe.rating >= 2 ? 'star-visible' : 'star-hidden'} size={30} />
+                    <MdStar className={recipe.rating >= 3 ? 'star-visible' : 'star-hidden'} size={30} />
+                    <MdStar className={recipe.rating >= 4 ? 'star-visible' : 'star-hidden'} size={30} />
+                    <MdStar className={recipe.rating >= 5 ? 'star-visible' : 'star-hidden'} size={30} />
+                  </div>
                   <p className='recipe-author'>By: <u>{`${recipe.author}`}</u></p>
+                  
                 </button>
               ))
             ) : (
