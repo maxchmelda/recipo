@@ -1,11 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { API_URL } from '../../config';
 import axios from 'axios';
 import Navbar from '../../components/Navbar/Navbar';
+import './Profile.css';
 
 const Profile = () => {
-  const [imageFile, setImageFile] = useState();
+  const [imageFile, setImageFile] = useState('');
   const [token, setToken] = useState(JSON.parse(localStorage.getItem("token")));
+  const [username, setUsername] = useState('');
+
+  const fetchUser = async () => {
+    try {
+      axios.defaults.headers.common["Authorization"] = token;
+      const response = await axios.get(`${API_URL}/users/user`);
+      console.log(response);
+      setUsername(response.data.username || '');
+      setImageFile(response.data.image || '');
+    } catch (error) {
+      console.log('Error fetching user profile:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchUser();
+  }, [token]);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -20,19 +38,23 @@ const Profile = () => {
 
   const handleSubmit = async () => {
     const user = {
-      'userPicture': imageFile,
-    }
+      'username': username,
+      'image': imageFile
+    };
 
     try {
-      console.log('sending request')
       axios.defaults.headers.common["Authorization"] = token;
       const response = await axios.post(`${API_URL}/users/edit_user`, user);
       console.log(response.data);
+      if (response.data.ok) {
+        fetchUser();
+      } else {
+        console.error('Error:', response.data.message);
+      }
     } catch (error) {
-      console.error('Error fetching data:', error);
+      console.error('Error updating user:', error);
     }
-
-  }
+  };
 
   return (
     <>
@@ -42,19 +64,38 @@ const Profile = () => {
         <div className='all-recipes-wrapper'>
           <div className='all-recipes-heading-wrapper'>
             <h2 className='all-recipes-heading'>Profile</h2>
-            <div className='profile-wrapper'>
+          </div>
+          <div className='profile-wrapper'>
+            <div className='change-image-pfp-wrapper'>
+              <h2>Profile picture</h2>
+              <img 
+                src={imageFile || 'path/to/default-profile-image.svg'} 
+                alt="Profile Preview" 
+                className='profile-image-preview'
+              />
               <input 
                 type="file"
                 accept="image/*"
                 onChange={handleImageChange}
               />
-              <button onClick={() => handleSubmit()}>upload image</button>
             </div>
+
+            <div>
+              <h2>Username</h2>
+              <input 
+                type="text" 
+                value={username} 
+                className='username-input'
+                onChange={(e) => setUsername(e.target.value)} 
+              />
+            </div>
+
+            <button className='add-recipe-cb' onClick={handleSubmit}>Save</button>
           </div>
         </div>
       </div>
     </>
-  )
+  );
 }
 
-export default Profile
+export default Profile;

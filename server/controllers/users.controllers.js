@@ -77,30 +77,6 @@ const verify_token = (req, res) => {
 };
 
 
-const editUser = async (req, res) => {
-  const userEmail = req.user.userEmail;
-
-  const { userPicture } = req.body;
-
-  if (!userEmail) return res.json({ ok: false, message: "Error resolving user" });
-
-  try {
-    const user = await User.findOne({ email: userEmail });
-
-    if (!user) return res.json({ ok: false, message: "Error finding user" });
-
-    if (userPicture) {
-      user.image = userPicture;
-    }
-
-    await user.save();
-    res.json({ ok: true, message: "User updated successfully"})
-  } catch (error) {
-    res.json({ ok: false, message: error });
-  }
-};
-
-
 const getUserPicture = async (req, res) => {
   const userEmail = req.user.userEmail;
 
@@ -133,6 +109,48 @@ const getBookmarkedRecipes = async (req, res) => {
   }
 }
 
+const editUser = async (req, res) => {
+  const userEmail = req.user.userEmail;
+  const { image, username } = req.body;
+
+  if (!userEmail) return res.json({ ok: false, message: "Error resolving user" });
+
+  try {
+    const user = await User.findOne({ email: userEmail });
+
+    if (!user) return res.json({ ok: false, message: "Error finding user" });
+
+    if (image) {
+      user.image = image;
+    }
+    if (username) {
+      const existingUser = await User.findOne({ username });
+      if (existingUser && existingUser.email !== userEmail) {
+        return res.json({ ok: false, message: "Username already taken" });
+      }
+      user.username = username;
+    }
+
+    await user.save();
+    res.json({ ok: true, message: "User updated successfully" });
+  } catch (error) {
+    res.json({ ok: false, message: error.message });
+  }
+};
+
+const getUser = async (req, res) => {
+  const userEmail = req.user.userEmail;
+
+  try {
+    const user = await User.findOne({ email: userEmail });
+    if (!user) return res.json({ ok: false, message: "User not found" });
+
+    res.json({ ok: true, username: user.username, image: user.image });
+  } catch (error) {
+    res.json({ ok: false, message: error.message });
+  }
+};
 
 
-module.exports = { register, login, verify_token, getUserPicture, editUser, getBookmarkedRecipes };
+
+module.exports = { register, login, verify_token, getUserPicture, editUser, getBookmarkedRecipes, getUser };
