@@ -153,7 +153,8 @@ const CreateRecipe = () => {
       "tags": selectedTags,
       "cookingTimes": cookingTimes,
       "description": description,
-      "steps": steps
+      "steps": steps,
+      "rating": 1,
     }
 
     try {
