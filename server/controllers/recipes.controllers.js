@@ -3,7 +3,7 @@ const User = require('../models/users.models');
 
 // Controller function to create a recipe
 const createRecipe = async (req, res) => {
-    const { recipeName, ingredients, tags, cookingTimes, description, steps, image } = req.body;
+    const { recipeName, ingredients, tags, cookingTimes, description, steps, image, rating } = req.body;
 
     try {
         const user = req.user.userEmail;
@@ -34,7 +34,8 @@ const createRecipe = async (req, res) => {
             'author': userName,
             'times': cookingTimes,
             'description': description,
-            'image': imageField
+            'image': imageField,
+            'rating': rating,
         };
 
         await Recipe.create(newRecipe);
@@ -151,7 +152,56 @@ const searchForRecipes = async (req, res) => {
 };
 
 
+const toggleRecipeInCB = async (req, res) => {
+    const { recipeId } = req.body;
+    const userEmail = req.user.userEmail;
+
+    try {
+        const user = await User.findOne({ email: userEmail });
+
+        let bookmarked = user.recipes;
+        const recipeIndex = bookmarked.findIndex(id => id.toString() === recipeId.toString());
+
+        if (recipeIndex !== -1) {
+            bookmarked.splice(recipeIndex, 1);
+        } else {
+            bookmarked.push(recipeId);
+        }
+
+        user.recipes = bookmarked;
+
+        await user.save();
+
+        res.status(200).json({ ok: true, message: 'Toggled recipe in user\'s bookmark successfully' });
+    } catch (error) {
+        console.error('Error toggling recipe in cookbook:', error);
+        res.status(500).json({ ok: false, message: 'Server error' });
+    }
+}
+
+
+const getBookmarked = async (req, res) => {
+    const userEmail = req.user.userEmail;
+
+    try {
+        const user = await User.findOne({ email: userEmail });
+
+        if (!user) {
+            return res.status(404).json({ ok: false, message: 'User not found' });
+        }
+        
+        const bookmarkedRecipes = await Recipe.find({ _id: { $in: user.recipes } });
+
+        res.status(200).json({ ok: true, data: bookmarkedRecipes });
+    } catch (error) {
+        console.error('Error fetching bookmarked recipes:', error);
+        res.status(500).json({ ok: false, message: 'Server error' });
+    }
+};
 
 
 
-module.exports = { getAllRecipes, createRecipe, getSingleRecipe, addReviewToRecipe, searchForRecipes };
+
+
+
+module.exports = { getAllRecipes, createRecipe, getSingleRecipe, addReviewToRecipe, searchForRecipes, toggleRecipeInCB, getBookmarked };

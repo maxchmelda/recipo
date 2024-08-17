@@ -1,0 +1,14 @@
+.add-recipe-cb {
+    background-color: #5d7762;
+    color: white;
+    border: none;
+    border-radius: 2rem;
+    font-weight: 700;
+    padding: 0.5rem 1rem;
+    margin-top: 0.2rem;
+}
+
+.add-recipe-cb:hover {
+    background-color: #77957c;
+    cursor: pointer;
+}

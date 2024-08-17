@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { API_URL } from '../../config';
 import axios from 'axios';
+import Navbar from '../../components/Navbar/Navbar';
 
 const Profile = () => {
   const [imageFile, setImageFile] = useState();
@@ -34,14 +35,25 @@ const Profile = () => {
   }
 
   return (
-    <div>
-      <input 
-        type="file"
-        accept="image/*"
-        onChange={handleImageChange}
-      />
-      <button onClick={() => handleSubmit()}>upload image</button>
-    </div>
+    <>
+      <Navbar />
+
+      <div className='discover-page-wrapper'>
+        <div className='all-recipes-wrapper'>
+          <div className='all-recipes-heading-wrapper'>
+            <h2 className='all-recipes-heading'>Profile</h2>
+            <div className='profile-wrapper'>
+              <input 
+                type="file"
+                accept="image/*"
+                onChange={handleImageChange}
+              />
+              <button onClick={() => handleSubmit()}>upload image</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
   )
 }
 

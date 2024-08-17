@@ -38,7 +38,7 @@ const recipeSchema = new mongoose.Schema({
             text: { type: String, required: true },
         }
     ],
-    rating: { type: Number, min: 1, max: 5, required: true },
+    rating: { type: Number, min: 0, max: 5, required: true },
     description: { type: String, required: true },
     cooked_by: [
         { 

@@ -117,5 +117,22 @@ const getUserPicture = async (req, res) => {
   }
 };
 
+const getBookmarkedRecipes = async (req, res) => {
+  const userEmail = req.user.userEmail;
 
-module.exports = { register, login, verify_token, getUserPicture, editUser };
+  if (!userEmail) return res.json({ ok: false, message: "Error resolving user" });
+
+  try {
+    const user = await User.findOne({ email: userEmail });
+
+    if (!user) return res.json({ ok: false, message: "Error finding user" });
+
+    res.json({ ok: true, Ids: user.recipes });
+  } catch (error) {
+    res.json({ ok: false, message: error });
+  }
+}
+
+
+
+module.exports = { register, login, verify_token, getUserPicture, editUser, getBookmarkedRecipes };

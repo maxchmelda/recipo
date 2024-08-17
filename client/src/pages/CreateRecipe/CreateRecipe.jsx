@@ -154,14 +154,15 @@ const CreateRecipe = () => {
       "cookingTimes": cookingTimes,
       "description": description,
       "steps": steps,
-      "rating": 1,
+      "rating": 0,
     }
 
     try {
-      console.log('sending request')
       axios.defaults.headers.common["Authorization"] = token;
       const response = await axios.post(`${API_URL}/recipes/create-recipe`, recipe);
-      console.log(response.data);
+      if (response.data.ok === true) {
+        navigate('/');
+      }
     } catch (error) {
       console.error('Error fetching data:', error);
     }

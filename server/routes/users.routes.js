@@ -7,6 +7,7 @@ router.post('/login', controller.login);
 router.post('/verify_token', controller.verify_token);
 router.post('/edit_user', authenticate, controller.editUser)
 router.get('/get_user_pfp', authenticate, controller.getUserPicture);
+router.get('/bookmarked', authenticate, controller.getBookmarkedRecipes)
 
 
 module.exports = router;

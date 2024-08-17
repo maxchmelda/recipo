@@ -91,6 +91,26 @@ const Recipe = () => {
               </p>
             </div>
 
+            <div className='reviews-wrapper'>
+              <div className='review-stars-container'>
+                <button className='star-button' onClick={() => setStars(1)}>
+                  <MdStar className={stars >= 1 ? 'star-selected' : 'star'} size={30} />
+                </button>
+                <button className='star-button' onClick={() => setStars(2)}>
+                  <MdStar className={stars >= 2 ? 'star-selected' : 'star'} size={30} />
+                </button>
+                <button className='star-button' onClick={() => setStars(3)}>
+                  <MdStar className={stars >= 3 ? 'star-selected' : 'star'} size={30} />
+                </button>
+                <button className='star-button' onClick={() => setStars(4)}>
+                  <MdStar className={stars >= 4 ? 'star-selected' : 'star'} size={30} />
+                </button>
+                <button className='star-button' onClick={() => setStars(5)}>
+                  <MdStar className={stars >= 5 ? 'star-selected' : 'star'} size={30} />
+                </button>
+              </div>
+            </div>
+
             <div className='ingredients-wrapper'>
               <h2>Ingredients</h2>
               <div className='ingredients-container'>
