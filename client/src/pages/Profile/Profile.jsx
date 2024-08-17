@@ -3,6 +3,7 @@ import { API_URL } from '../../config';
 import axios from 'axios';
 import Navbar from '../../components/Navbar/Navbar';
 import './Profile.css';
+import Footer from '../../components/Footer/Footer';
 
 const Profile = () => {
   const [imageFile, setImageFile] = useState('');
@@ -94,6 +95,8 @@ const Profile = () => {
           </div>
         </div>
       </div>
+
+      <Footer />
     </>
   );
 }

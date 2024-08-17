@@ -6,6 +6,7 @@ import { API_URL } from '../../config';
 import axios from 'axios';
 import { IoClose } from "react-icons/io5";
 import { useNavigate } from 'react-router-dom';
+import Footer from '../../components/Footer/Footer';
 
 const tags = [
   'Chicken',
@@ -338,6 +339,8 @@ const CreateRecipe = () => {
           </div>
         </form>
       </div>
+
+      <Footer />
     </>
   );
 };

@@ -6,6 +6,7 @@ import axios from 'axios';
 import { API_URL } from '../../config';
 import defaultRecipeImage from '../../assets/images/default_recipe_image.svg';
 import { MdStar } from "react-icons/md";
+import Footer from '../../components/Footer/Footer';
 
 
 const Cookbook = () => {
@@ -105,6 +106,8 @@ const Cookbook = () => {
           </div>
         </div>
       </div>
+
+      <Footer />
     </>
   )
 }

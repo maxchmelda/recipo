@@ -6,6 +6,7 @@ import axios from 'axios';
 import { API_URL } from '../../config';
 import defaultRecipeImage from '../../assets/images/default_recipe_image.svg';
 import { MdStar } from "react-icons/md";
+import Footer from '../../components/Footer/Footer';
 
 
 const Recipe = () => {
@@ -205,6 +206,8 @@ const Recipe = () => {
           <p>You can try to refresh the page</p>
         </div>
       </div> }
+
+      <Footer />
     </>
   )
 }

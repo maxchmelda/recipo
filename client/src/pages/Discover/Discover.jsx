@@ -6,6 +6,7 @@ import { API_URL } from '../../config';
 import { CiSearch } from "react-icons/ci";
 import { useNavigate } from 'react-router-dom';
 import { MdStar } from 'react-icons/md';
+import Footer from '../../components/Footer/Footer';
 
 const Discover = () => {
   const [token, setToken] = useState(JSON.parse(localStorage.getItem("token")));
@@ -185,6 +186,8 @@ const Discover = () => {
           </div>
         </div>
       </div>
+      
+      <Footer />
     </>
   );
 };
