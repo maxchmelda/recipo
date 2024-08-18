@@ -33,11 +33,10 @@ html, body {
 }
 
 .all-recipes-heading-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
+    display: grid;
+    grid-template-columns: auto auto;
     padding: 0 3rem;
-    width: 100%
+    width: 100%;
 }
 
 .all-recipes-heading {
@@ -167,5 +166,21 @@ html, body {
 @media screen and (max-width: 700px) {
     .recipes-grid-container {
         grid-template-columns: auto;
+    }
+}
+
+@media screen and (max-width: 950px) {
+    .all-recipes-heading-wrapper {
+        grid-template-columns: auto;
+    }
+    .recipe-search-wrapper {
+        width: 100%;
+        justify-content: flex-start;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .recipe-search-wrapper {
+        flex-wrap: wrap;
     }
 }

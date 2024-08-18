@@ -36,7 +36,7 @@
 .recipe-cooking-times {
     display: flex;
     align-items: center;
-    gap: 6rem
+    gap: 5rem
 }
 
 .recipe-cooking-times p {
@@ -115,7 +115,7 @@
 }
 
 .create-review textarea {
-    width: 55%;
+    width: 70%;
     height: 15vh;
     padding: 0.7rem 1rem;
     border-radius: 2rem;
@@ -176,7 +176,7 @@
 }
 
 .review-card {
-    width: 40%;
+    width: 70%;
     padding: 1rem;
     border-radius: 1rem;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -190,3 +190,11 @@
 }
 
 
+@media screen and (max-width: 700px) {
+    .create-review textarea {
+        width: 100%;
+    }
+    .review-card {
+        width: 100%
+    }
+}
