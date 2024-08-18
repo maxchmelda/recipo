@@ -48,7 +48,8 @@ html, body {
 .recipes-grid-container {
     display: grid;
     grid-template-columns: auto auto auto;
-    gap: 2rem
+    gap: 2rem;
+    min-height: 45vh;
 }
 
 .recipe-card {
@@ -157,6 +158,14 @@ html, body {
     color: rgb(174, 174, 174);
 }
 
-.add-recipe-cb {
-    
+@media screen and (max-width: 1050px) {
+    .recipes-grid-container {
+        grid-template-columns: auto auto;
+    }
+}
+
+@media screen and (max-width: 700px) {
+    .recipes-grid-container {
+        grid-template-columns: auto;
+    }
 }

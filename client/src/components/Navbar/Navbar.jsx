@@ -34,7 +34,7 @@ const Navbar = () => {
             <Link className={location.pathname === '/create-recipe' ? 'selected-navbar-link' : 'navbar-link'} to='/create-recipe' >Create recipe</Link>
         </div>
         <Link className='navbar-link' to='/profile'>
-          {<img src={userImage ? userImage : defaultUserImage} alt="Profile" className='navbar-profile-picture' />}
+          <img src={userImage ? userImage : defaultUserImage} alt="Profile" className='navbar-profile-picture' />
         </Link>
     </div>
   )

@@ -4,11 +4,14 @@ import axios from 'axios';
 import Navbar from '../../components/Navbar/Navbar';
 import './Profile.css';
 import Footer from '../../components/Footer/Footer';
+import DefaultPfp from '../../assets/images/default_pfp.png'
+import { useNavigate } from 'react-router-dom';
 
 const Profile = () => {
   const [imageFile, setImageFile] = useState('');
   const [token, setToken] = useState(JSON.parse(localStorage.getItem("token")));
   const [username, setUsername] = useState('');
+  const navigate = useNavigate();
 
   const fetchUser = async () => {
     try {
@@ -16,7 +19,7 @@ const Profile = () => {
       const response = await axios.get(`${API_URL}/users/user`);
       console.log(response);
       setUsername(response.data.username || '');
-      setImageFile(response.data.image || '');
+      setImageFile(response.data.image || DefaultPfp);
     } catch (error) {
       console.log('Error fetching user profile:', error);
     }
@@ -49,6 +52,7 @@ const Profile = () => {
       console.log(response.data);
       if (response.data.ok) {
         fetchUser();
+        navigate(-1);
       } else {
         console.error('Error:', response.data.message);
       }
